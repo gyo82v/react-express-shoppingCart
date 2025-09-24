@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import logo from "./images/turtle-bag.png"
+import Item from "./components/Item"
 
 
 function App() {
@@ -22,7 +23,7 @@ function App() {
                rounded-lg px-4 py-2 
                hover:scale-105 active:scale-95 hover:shadow-xl hover:from-lime-200 hover:to-green-400 
                hover:text-lime-700`
-  const itemsSection = ``
+  const itemsSection = `flex flex-wrap w-full gap-3 justify-center mt-10`
   //
 
   useEffect(() => {
@@ -40,7 +41,7 @@ function App() {
   }, [])
 
   const cartArr = cart.map(i => (
-    <p key={i.id}>{i.name}</p>
+    <Item data={i} key={i.id} />
   ))
 
   const handleChange = e => {
