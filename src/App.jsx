@@ -41,7 +41,7 @@ function App() {
   }, [cart])
 
   const cartArr = cart.map(i => (
-    <Item data={i} key={i.id} />
+    <Item data={i} key={i.id} onClick={() => handleDelete(i.id)} />
   ))
 
   const handleChange = e => {
@@ -71,6 +71,19 @@ function App() {
     } catch (err) {
       console.error("POST error", err)
     }
+  }
+  async function handleDelete(id)  {
+    try {
+      const res = await fetch(`http://localhost:8000/api/cart/${id}`, {
+        method : "DELETE"
+      })
+      if(!res.ok) throw new Error("DELETE error")
+      const data = await res.json()
+      
+    } catch (err) {
+      console.log("DELETE error", err)
+    }
+
   }
 
 
