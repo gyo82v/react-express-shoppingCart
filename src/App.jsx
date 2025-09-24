@@ -26,8 +26,22 @@ function App() {
   //
 
   useEffect(() => {
-
+    const fetchData = async () => {
+      try {
+        const res = await fetch("http://localhost:8000/api/cart")
+        if(!res.ok) throw new Error("error while fetching data GET")
+        const data = await res.json()
+        setCart(data)   
+      } catch (err) {
+        console.error("error Get", err)
+      }
+    }
+    fetchData()
   }, [])
+
+  const cartArr = cart.map(i => (
+    <p key={i.id}>{i.name}</p>
+  ))
 
   const handleChange = e => {
     const {name, value} = e.target 
@@ -74,7 +88,7 @@ function App() {
           <button className={`${transition} ${btn}`} type="submit">Add to Cart</button>
         </form>
         <section className={itemsSection}>
-           <p>items array here</p>
+           {cartArr}
         </section>
       </main>
     </div>
