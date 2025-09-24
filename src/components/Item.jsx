@@ -4,7 +4,7 @@ export default function Item({data, ...rest}){
     //tailwind
       const btn = `p-2 font-bold text-lg rounded-lg shadow-lg bg-gradient-to-br 
                    transition-transform transition-colors transition-shadow duration-300 ease-in-out 
-                   hover:scale-105 active:scale-95 hover:shadow-xl `
+                   hover:scale-110 active:scale-95 hover:shadow-xl `
       const variants = {
         default : `from-gray-500 to-gray-300 text-gray-700 hover:from-gray-300 hover:to-gray-500`,
         house : `from-rose-400 to-rose-200 text-rose-700 hover:from-rose-200 hover:to-rose-400`,

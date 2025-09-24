@@ -38,7 +38,7 @@ function App() {
       }
     }
     fetchData()
-  }, [])
+  }, [cart])
 
   const cartArr = cart.map(i => (
     <Item data={i} key={i.id} />
@@ -49,9 +49,28 @@ function App() {
     setFormdata(f => ({...f, [name] : value}))
   }
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault()
-    console.log(formdata)
+    
+    if(!formdata.name.trim()){console.error("name is required"); return}
+    if(!formdata.category.trim()){console.error("category is required"); return}
+
+    const payload = {
+      name : formdata.name,
+      category : formdata.category
+    }
+
+    try {
+      const res = await fetch("http://localhost:8000/api/cart", {
+        method : "POST",
+        headers : {"Content-Type": "application/json"},
+        body : JSON.stringify(payload)
+      })
+      if(!res.ok) throw new Error("Post error")
+      setFormdata({name : "", category : ""})
+    } catch (err) {
+      console.error("POST error", err)
+    }
   }
 
 

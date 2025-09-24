@@ -9,5 +9,7 @@ export default function createCartRouter(db){
     router.get("/", ctrl.list)
     // post => create items  /api/cart/
     router.post("/", ctrl.create)
+    // delete => remove item by id  /api/cart/:id
+    router.delete("/:id", ctrl.delete)
     return router
 }

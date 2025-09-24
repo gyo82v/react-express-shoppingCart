@@ -24,6 +24,26 @@ export function createCartController(db){
                 console.error("Error in cartController.create:", err);
                 return res.status(500).json({ error: "Failed to create cart item" });  
             }
+        },
+        delete : async (req, res) => {
+            try {
+                const id = Number(req.params.id)
+                if(!Number.isInteger(id) || id <= 0){
+                    return res.status(400).json({error: "Invalid id parameter"})
+                }
+
+                 const deleted = await db.query(
+                    "DELETE FROM cart WHERE id = $1 RETURNING *",
+                    [id]
+                );
+                if(!deleted.rows || deleted.rows.length === 0){
+                    return res.status(404).json({error : "cart item not found"})
+                }
+                return res.status(200).json(deleted.rows[0])
+            } catch (err) {
+                console.error("Error in cartController.delete", err)
+                return res.status(500).json({error : "failed to delete cart item"})   
+            }
         }
     }
 }
