@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import logo from "./images/turtle-bag.png"
 import Item from "./components/Item"
 
@@ -26,19 +26,20 @@ function App() {
   const itemsSection = `flex flex-wrap w-full gap-3 justify-center mt-10`
   //
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch("http://localhost:8000/api/cart")
-        if(!res.ok) throw new Error("error while fetching data GET")
-        const data = await res.json()
-        setCart(data)   
-      } catch (err) {
-        console.error("error Get", err)
-      }
+  const fetchData = useCallback(async () => {
+    try {
+      const res = await fetch("http://localhost:8000/api/cart")
+      if(!res.ok) throw new Error("error fecthing data")
+      const data = await res.json()
+      setCart(data)
+    } catch (err) {
+      console.error("Error fetching data", err)
     }
+  }, [])
+
+  useEffect(() => {
     fetchData()
-  }, [cart])
+  }, [fetchData])
 
   const cartArr = cart.map(i => (
     <Item data={i} key={i.id} onClick={() => handleDelete(i.id)} />
@@ -51,14 +52,10 @@ function App() {
 
   const handleSubmit = async e => {
     e.preventDefault()
-    
-    if(!formdata.name.trim()){console.error("name is required"); return}
-    if(!formdata.category.trim()){console.error("category is required"); return}
 
-    const payload = {
-      name : formdata.name,
-      category : formdata.category
-    }
+    if(!formdata.name.trim() || !formdata.category.trim()) return
+    
+    const payload = { name : formdata.name, category : formdata.category }
 
     try {
       const res = await fetch("http://localhost:8000/api/cart", {
@@ -67,6 +64,7 @@ function App() {
         body : JSON.stringify(payload)
       })
       if(!res.ok) throw new Error("Post error")
+      await fetchData()
       setFormdata({name : "", category : ""})
     } catch (err) {
       console.error("POST error", err)
@@ -79,7 +77,7 @@ function App() {
       })
       if(!res.ok) throw new Error("DELETE error")
       const data = await res.json()
-      
+      await fetchData()
     } catch (err) {
       console.log("DELETE error", err)
     }
