@@ -11,10 +11,6 @@ function App() {
   const flex = `flex flex-col items-center`
   const transition = `transition-transform transition-colors transition-shadow duration-300 ease-in-out
                       shadow-lg shadow-green-700/30 w-full`
-  const container = `bg-green-200 min-h-screen`
-  const main = `mt-10 w-11/12`
-  const logoImg = `w-28 h-28 rounded-lg mb-6`
-  const form = `gap-4 p-4 w-full`
   const input = `bg-green-100 p-2 rounded-lg text-green-700 font-semibold  
                  border-2 border-green-200 
                  focus:outline-none focus:scale-105 focus:ring-2 focus:ring-lime-500 focus:shadow-xl
@@ -23,7 +19,7 @@ function App() {
                rounded-lg px-4 py-2 
                hover:scale-105 active:scale-95 hover:shadow-xl hover:from-lime-200 hover:to-green-400 
                hover:text-lime-700`
-  const itemsSection = `flex flex-wrap w-full gap-3 justify-center mt-10`
+  const itemsSection = `flex flex-wrap w-full gap-3 justify-center mt-10 md:w-6/12 xl:w-4/12`
   //
 
   const fetchData = useCallback(async () => {
@@ -81,15 +77,13 @@ function App() {
     } catch (err) {
       console.log("DELETE error", err)
     }
-
   }
 
-
   return (
-    <div className={`${flex} ${container}`}>
-      <main className={`${flex} ${main}`}>
-        <img src={logo} alt="logo" className={logoImg} />
-        <form className={`${flex} ${form}`} onSubmit={handleSubmit}>
+    <div className={`${flex} bg-green-200 min-h-screen`}>
+      <main className={`${flex} mt-10 w-11/12`}>
+        <img src={logo} alt="logo" className="w-28 h-28 rounded-full mb-6" />
+        <form className={`${flex} gap-4 p-4 w-full md:w-6/12 xl:w-4/12`} onSubmit={handleSubmit}>
           <input 
             className={`${input} ${transition}`} 
             type="text"
